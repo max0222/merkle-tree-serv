@@ -13,11 +13,17 @@ router.post('/', function(req, res, next) {
   const leaves = data.addrs
       .map((addr) => ethers.utils.keccak256(ethers.utils.defaultAbiCoder.encode(['address'], [ethers.utils.getAddress(addr)])));
   const tree = new MerkleTree(leaves, ethers.utils.keccak256, { sortPairs: true });
-  const proofs = leaves.map((leave) => tree.getHexProof(leave));
+  const proofs = []
+  for (let i = 0; i < data.addrs.length; i++) {
+    proofs.push({
+      address: data.addrs[i],
+      proof: tree.getHexProof(leaves[i]),
+    })
+  }
 
   res.send({
     root: tree.getHexRoot(),
-    proof: proofs
+    proofs: proofs
   });
 });
 
