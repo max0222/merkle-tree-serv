@@ -6,6 +6,7 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var proof = require('./routes/proof')
+var leavesProof = require('./routes/leavesProof')
 var bodyParser = require('body-parser');
 
 var app = express();
@@ -23,6 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/proof', proof);
+app.use('/leavesProof', leavesProof)
 
 
 // catch 404 and forward to error handler
